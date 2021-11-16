@@ -1,0 +1,88 @@
+
+{% extends "index.html" %}
+
+{% block javascript %}
+<script type="text/javascript" language="javascript">
+
+function update_form()
+{
+    alert(1)
+    // window.location.href="login.php";
+}
+
+   
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <a href="{{url_for('wallet', user_id=user.id) }}">Back</a>
+
+        <div class="row" style="margin-top: 40px">
+            <div class="col-sm-6">
+                <form  action="{{ url_for('edit_profile') }}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="id" name="id" value="{{user.id}}">
+
+                    <div class="form-group">
+                        <label for="first_name">First Name : </label>
+                        <input type="text" name="first_name" class="form-control" id="first_name"  value="{{user.first_name}}">
+                    </div>
+  
+                    <div class="form-group">
+                        <label for="last_name">Last Name : </label>
+                        <input type="text" name="last_name" class="form-control" id="last_name"  value="{{user.last_name}}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email : </label>
+                      <input type="email" name="mail_id" class="form-control" id="mail_id" value="{{user.mail_id}}">
+                    </div>
+
+                      <div class="form-group">
+                        <label for="email">Default Currency : </label>
+                            <select id="default_currency" name = "default_currency">
+                                {% for currency in currencies %}
+                                    {% if user.default_currency == currency  %}
+                                        <option value="{{currency}}"  selected='selected'>{{currency}}</option>
+                                    {% else %}
+                                        <option value="{{currency}}" >{{currency}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </select>
+                      </div>
+
+
+                    <div class="form-group">
+                      <label for="email">Password : </label>
+                      <input type="password" name="password" class="form-control" id="password">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="avtar">Upload Image : </label>
+                      <input type="file" id="avtar" name="avtar" value="{{user.avatar}}">
+                    </div>
+
+                    <div class="form-group">
+                        {% if user.avtar %}
+                                <div class="row" style="margin-top: 4px">
+                                    <div class="col-sm-6">
+                                        <img src="{{ user.avtar }}" width="200" height="200" alt="User Image">
+                                    </div>
+                                </div>                
+                        {% endif %}
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn form-control btn-primary">save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

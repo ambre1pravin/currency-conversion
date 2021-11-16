@@ -1,0 +1,82 @@
+
+{% extends "index.html" %}
+
+{% block javascript %}
+<script type="text/javascript" language="javascript">
+
+function update_form()
+{
+    alert(1)
+    // window.location.href="login.php";
+}
+
+   
+</script>
+{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="container">
+        <br>
+
+        <div class="form-group">
+            
+                <a href="{{url_for('wallet', user_id=user.id) }}">Back</a>
+           
+        </div>
+        
+        {% if user_list  %}
+        <div class="row" style="margin-top: 40px">
+            <div class="col-sm-6">
+                <form  action="{{ url_for('send_money_to_user') }}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="id" name="id" value="{{user.id}}">
+
+                    <div class="form-group">
+                        <label for="user">Send To User : </label>
+                            <select id="send_to" name = "send_to">
+                                {% for user_info in user_list %}
+                                    <option value="{{user_info.id}}" >{{user_info.first_name}} {{user_info.last_name}}</option>
+                                {% endfor %}
+
+                            </select>
+                      </div>
+
+                    <div class="form-group">
+                        <label for="email">Currency Type : </label>
+                            <select id="currency_type" name = "currency_type">
+                                {% for currency in currencies %}
+                                    {% if user.default_currency == currency  %}
+                                        <option value="{{currency}}"  selected='selected'>{{currency}}</option>
+                                    {% else %}
+                                        <option value="{{currency}}" >{{currency}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                      </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount : </label>
+                        <input type="text" name="amount" class="form-control" id="amount">
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn form-control btn-primary">send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+            <div class="form-group">
+                <label for="amount">User Not Found </label>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}
